@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { formatTimestamp } from '@/lib/blockService'
 import { decodeClauseHuman, decodeFunctionParams } from '@/lib/txService'
+import CopyButton from '@/components/CopyButton'
 
 type TxTabsProps = {
   tx: {
@@ -61,10 +62,13 @@ export default function TxTabs({ tx }: TxTabsProps) {
           <div className="p-6 space-y-6">
             {/* Summary Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="text-xs text-neutral-400 mb-1">Signature</div>
+            <div className="text-center">
+              <div className="text-xs text-neutral-400 mb-1">Signature</div>
+              <div className="flex items-center justify-center gap-2">
                 <div className="font-mono text-sm break-all">{tx.id.slice(0, 6)}....{tx.id.slice(-4)}</div>
+                <CopyButton text={tx.id} />
               </div>
+            </div>
               <div className="text-center">
                 <div className="text-xs text-neutral-400 mb-1">Time</div>
                 <div className="text-sm">{tx.meta?.blockTimestamp ? formatTimestamp(tx.meta.blockTimestamp) : '—'}</div>
@@ -83,9 +87,24 @@ export default function TxTabs({ tx }: TxTabsProps) {
               <Info label="Gas Used" value={tx.gas.toLocaleString()} />
               <Info label="Gas Price Coef" value={String(tx.gasPriceCoef)} />
               <Info label="Expiration" value={`${tx.expiration} blocks`} />
-              <Info label="Origin" value={<span className="font-mono text-xs">{tx.origin}</span>} />
-              <Info label="Delegator" value={tx.delegator ? <span className="font-mono text-xs">{tx.delegator}</span> : '—'} />
-              <Info label="Nonce" value={<span className="font-mono text-xs">{tx.nonce}</span>} />
+              <Info label="Origin" value={
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs">{tx.origin}</span>
+                  <CopyButton text={tx.origin} />
+                </div>
+              } />
+              <Info label="Delegator" value={tx.delegator ? (
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs">{tx.delegator}</span>
+                  <CopyButton text={tx.delegator} />
+                </div>
+              ) : '—'} />
+              <Info label="Nonce" value={
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs">{tx.nonce}</span>
+                  <CopyButton text={tx.nonce} />
+                </div>
+              } />
               <Info label="Depends On" value={tx.dependsOn || '—'} />
               <Info label="Size" value={`${tx.size} B`} />
               <Info label="Block Ref" value={<span className="font-mono text-xs">{tx.blockRef}</span>} />

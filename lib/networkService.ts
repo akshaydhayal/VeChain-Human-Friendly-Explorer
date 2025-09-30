@@ -14,4 +14,6 @@ export function getThorClient() {
   return thorSingleton
 }
 
-
+export function resetThorClient() {
+  thorSingleton = null
+}
