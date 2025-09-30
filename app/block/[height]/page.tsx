@@ -20,8 +20,8 @@ export default async function BlockPage({ params }: Params) {
       <div className="card p-4">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm text-neutral-400">Block</div>
-            <div className="text-2xl font-semibold">#{block.number.toLocaleString()}</div>
+            <div className="muted text-sm">Block</div>
+            <div className="heading-block">#{block.number.toLocaleString()}</div>
           </div>
           <div className="flex items-center gap-2">
             <a className="chip" href={`/block/${block.number - 1}`}>Previous</a>
@@ -55,7 +55,7 @@ export default async function BlockPage({ params }: Params) {
           </div>
         </div>
       </div>
-      <TransactionsTable txs={block.transactions.map((t) => ({ signature: t.id, type: 'Transaction', status: t.reverted ? 'Failed' : 'Success' }))} />
+      <TransactionsTable txs={block.transactions.map((t) => ({ signature: t.id, status: t.reverted ? 'Failed' : 'Success', origin: (t as any).origin, gasUsed: t.gasUsed, typeCode: t.type }))} />
     </div>
   )
 }

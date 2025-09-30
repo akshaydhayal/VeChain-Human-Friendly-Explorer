@@ -25,4 +25,29 @@ body {
 .table thead th { @apply text-left text-neutral-400 text-xs font-medium px-3; }
 .table tbody td { @apply px-3 py-3 bg-surface/70 border border-border rounded-md; }
 
+/* Typography tokens to match reference visuals */
+.accent { color: #ff4d2e; }
+.muted { @apply text-neutral-400; }
+.heading-block { font-size: 34px; line-height: 1; font-weight: 600; letter-spacing: 0.02em; }
+.uptitle { @apply uppercase tracking-widest text-sm font-semibold; }
+
+/* Tab styles for transactions section */
+.tabbar { @apply flex items-center gap-3 px-4 pt-3 border-b border-border; }
+.tab { @apply inline-flex items-center gap-2 px-4 py-2 rounded-t-md border border-transparent text-sm text-neutral-300; }
+.tab-active { @apply border-border bg-surface text-primary font-semibold; }
+
+/* Checker and orange tab for Block Info */
+.checker {
+  width: 24px; height: 24px;
+  background-image: linear-gradient(45deg, #0c0807 25%, rgba(0,0,0,0) 25%),
+                    linear-gradient(-45deg, #0c0807 25%, rgba(0,0,0,0) 25%),
+                    linear-gradient(45deg, rgba(0,0,0,0) 75%, #0c0807 75%),
+                    linear-gradient(-45deg, rgba(0,0,0,0) 75%, #0c0807 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  border-left: 8px solid #ff4d2e;
+  box-shadow: inset -1px 0 0 #2a1f1c;
+}
+.section-tab { @apply bg-primary text-black font-semibold uppercase tracking-widest text-sm px-4 py-2; }
+
 

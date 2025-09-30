@@ -1,5 +1,6 @@
 import './globals.css'
 import { ReactNode } from 'react'
+import SearchInput from '@/components/SearchInput'
 
 export const metadata = {
   title: 'VeChain Explorer (Human Friendly)',
@@ -14,10 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <header className="sticky top-0 z-50 border-b border-border bg-black/60 backdrop-blur">
             <div className="mx-auto max-w-7xl px-4 py-3 flex items-center gap-4">
               <div className="text-primary font-semibold tracking-wide">orb</div>
-              <input
-                className="flex-1 bg-surface border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                placeholder="Search for accounts, tokens, blocks..."
-              />
+              <SearchInput />
               <nav className="flex items-center gap-3 text-sm">
                 <a className="hover:text-white" href="/">Stats</a>
                 <a className="hover:text-white" href="#">Stake</a>

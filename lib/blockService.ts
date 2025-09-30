@@ -13,7 +13,7 @@ export type VeChainBlock = {
   totalScore: number
   parentID: string
   baseFeePerGas?: string
-  transactions: Array<{ id: string; reverted?: boolean; gasUsed?: number; paid?: string; reward?: string }>
+  transactions: Array<{ id: string; type?: number; origin?: string; reverted?: boolean; gasUsed?: number; paid?: string; reward?: string }>
 }
 
 export async function fetchLatestBlock(): Promise<VeChainBlock | null> {

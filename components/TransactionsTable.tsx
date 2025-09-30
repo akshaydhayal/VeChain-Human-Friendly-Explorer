@@ -1,7 +1,9 @@
 type Tx = {
   signature: string
-  type: string
   status: 'Success' | 'Failed'
+  origin?: string
+  gasUsed?: number
+  typeCode?: number
 }
 
 export function TransactionsTable({ txs }: { txs: Tx[] }) {
@@ -12,18 +14,24 @@ export function TransactionsTable({ txs }: { txs: Tx[] }) {
         <thead>
           <tr>
             <th>Type</th>
+            <th>Origin</th>
+            <th>Gas Used</th>
             <th>Status</th>
             <th>Signature</th>
           </tr>
         </thead>
         <tbody>
           {txs.map((t) => (
-            <tr key={t.signature}>
-              <td>{t.type}</td>
+            <tr key={t.signature} className="hover:bg-black/20 cursor-pointer">
+              <td className="font-semibold text-orange-400">{t.typeCode ?? ''}</td>
+              <td className="text-neutral-400 font-mono text-xs">{t.origin ? `${t.origin.slice(0,6)}....${t.origin.slice(-4)}` : '—'}</td>
+              <td className="text-neutral-300">{t.gasUsed?.toLocaleString?.() ?? '—'}</td>
               <td>
                 <span className={`chip ${t.status === 'Success' ? 'text-success' : 'text-danger'}`}>{t.status}</span>
               </td>
-              <td className="font-mono text-xs break-all">{t.signature}</td>
+              <td className="font-mono text-xs break-all">
+                <a className="text-primary hover:underline cursor-pointer" href={`/tx/${t.signature}`}>{t.signature}</a>
+              </td>
             </tr>
           ))}
         </tbody>
