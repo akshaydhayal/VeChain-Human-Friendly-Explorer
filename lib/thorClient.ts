@@ -1,4 +1,3 @@
-import 'server-only'
 import { ThorClient } from '@vechain/sdk-network'
 
 let thorSingleton: ReturnType<typeof ThorClient.at> | null = null
