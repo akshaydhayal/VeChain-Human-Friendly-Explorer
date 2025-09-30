@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+
+html, body, #__next { height: 100%; }
+
+body {
+  @apply bg-bg text-neutral-200 antialiased;
+}
+
+.card {
+  @apply bg-surface border border-border rounded-lg shadow-soft;
+}
+
+.chip {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-border bg-black/40 text-xs;
+}
+
+.table {
+  @apply w-full border-separate border-spacing-y-2;
+}
+
+.table thead th { @apply text-left text-neutral-400 text-xs font-medium px-3; }
+.table tbody td { @apply px-3 py-3 bg-surface/70 border border-border rounded-md; }
+
+
