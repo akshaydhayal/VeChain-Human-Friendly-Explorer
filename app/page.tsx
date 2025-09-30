@@ -1,21 +1,29 @@
-import { getNetworkStats, getRecentBlocks } from '@/lib/mockService'
 import { StatCard } from '@/components/StatCard'
 import { BlocksList } from '@/components/BlocksList'
+import { fetchLatestBlock, fetchRecentBlocks } from '@/lib/blockService'
 import dynamic from 'next/dynamic'
 
 const TinyChart = dynamic(() => import('@/components/TinyChart'), { ssr: false })
 
 export default async function Page() {
-  const [stats, blocks] = await Promise.all([getNetworkStats(), getRecentBlocks()])
+  const [latest, blocks] = await Promise.all([fetchLatestBlock(), fetchRecentBlocks(5)])
+  if (!latest) {
+    return (
+      <div className="card p-6">
+        <div className="text-sm text-neutral-400">Network unavailable</div>
+        <div className="mt-2">Unable to load latest block. Please check your connection or endpoint.</div>
+      </div>
+    )
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         <BlocksList blocks={blocks} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <StatCard title="Network TPS" value={<span className="text-green-400">{stats.tps.toLocaleString()}</span>} />
-          <StatCard title="Validators" value={<span className="text-green-400">{stats.validators.toLocaleString()}</span>} />
-          <StatCard title="VET Price" value={`$${stats.priceUsd.toFixed(3)}`} />
+          <StatCard title="Latest Block" value={`#${latest.number.toLocaleString()}`} />
+          <StatCard title="Block Size" value={`${latest.size.toLocaleString()} bytes`} />
+          <StatCard title="Gas Used" value={latest.gasUsed.toLocaleString()} />
         </div>
         <div className="card p-4">
           <div className="flex items-center justify-between">

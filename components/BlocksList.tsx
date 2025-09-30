@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
 export type BlockListItem = {
-  height: number
-  hash: string
-  leader: string
-  txCount: number
+  number: number
+  id: string
+  beneficiary?: string
+  transactions?: unknown[]
 }
 
 export function BlocksList({ blocks }: { blocks: BlockListItem[] }) {
@@ -15,16 +15,16 @@ export function BlocksList({ blocks }: { blocks: BlockListItem[] }) {
       </div>
       <ul className="divide-y divide-border">
         {blocks.map((b) => (
-          <li key={b.hash} className="px-4 py-3 hover:bg-black/30">
-            <Link href={`/block/${b.height}`} className="flex items-center justify-between">
+          <li key={b.id} className="px-4 py-3 hover:bg-black/30">
+            <Link href={`/block/${b.number}`} className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 bg-danger rounded-sm" />
                 <div>
-                  <div className="text-sm">Block #{b.height.toLocaleString()}</div>
-                  <div className="text-xs text-neutral-500">{b.leader}</div>
+                  <div className="text-sm">Block #{b.number.toLocaleString()}</div>
+                  <div className="text-xs text-neutral-500">{b.beneficiary || 'Unknown'}</div>
                 </div>
               </div>
-              <div className="text-xs text-neutral-400">{b.txCount} txs</div>
+              <div className="text-xs text-neutral-400">{(b as any).transactions?.length ?? 0} txs</div>
             </Link>
           </li>
         ))}
