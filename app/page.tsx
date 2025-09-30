@@ -1,12 +1,12 @@
 import { StatCard } from '@/components/StatCard'
-import { BlocksList } from '@/components/BlocksList'
-import { fetchLatestBlock, fetchRecentBlocks } from '@/lib/blockService'
+import RecentBlocksWebSocket from '@/components/RecentBlocksWebSocket'
+import { fetchLatestBlock } from '@/lib/blockService'
 import dynamic from 'next/dynamic'
 
 const TinyChart = dynamic(() => import('@/components/TinyChart'), { ssr: false })
 
 export default async function Page() {
-  const [latest, blocks] = await Promise.all([fetchLatestBlock(), fetchRecentBlocks(5)])
+  const latest = await fetchLatestBlock()
   if (!latest) {
     return (
       <div className="card p-6">
@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
-        <BlocksList blocks={blocks} />
+        <RecentBlocksWebSocket />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard title="Latest Block" value={`#${latest.number.toLocaleString()}`} />
           <StatCard title="Block Size" value={`${latest.size.toLocaleString()} bytes`} />
