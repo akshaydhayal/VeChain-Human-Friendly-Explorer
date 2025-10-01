@@ -4,11 +4,11 @@ import PriceChart from './PriceChart'
 
 export default function PriceChartsSection() {
   return (
-    <div className="space-y-6">
-      <div className="card p-6">
-        <div className="text-lg font-semibold mb-6">Token Price Charts</div>
+    <div className="space-y-4">
+      <div className="card p-4">
+        <div className="text-lg font-semibold mb-4">Token Price Charts</div>
         
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           <PriceChart 
             symbol="VET" 
             tokenName="VeChain" 

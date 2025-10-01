@@ -18,7 +18,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 space-y-8">
+    <div className="max-w-6xl mx-auto px-8 space-y-8">
       {/* Recent Blocks Section */}
       <RecentBlocksWebSocket />
       

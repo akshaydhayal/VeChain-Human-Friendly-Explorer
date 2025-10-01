@@ -22,16 +22,50 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
   const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('1m')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [allTimeframeData, setAllTimeframeData] = useState<Record<Timeframe, ChartData | null>>({
+    '1h': null,
+    '24h': null,
+    '7d': null,
+    '1m': null
+  })
 
   useEffect(() => {
-    const loadChartData = async () => {
+    const loadAllTimeframeData = async () => {
       try {
         setIsLoading(true)
         setError(null)
-        const data = await getTokenChartData(symbol, selectedTimeframe)
         
-        if (data) {
-          setChartData(data)
+        // Load all timeframes in parallel
+        const promises = timeframes.map(async ({ key }) => {
+          try {
+            const data = await getTokenChartData(symbol, key)
+            return { timeframe: key, data }
+          } catch (err) {
+            console.error(`Error loading ${key} data:`, err)
+            return { timeframe: key, data: null }
+          }
+        })
+        
+        const results = await Promise.all(promises)
+        
+        // Update all timeframe data
+        const newAllData: Record<Timeframe, ChartData | null> = {
+          '1h': null,
+          '24h': null,
+          '7d': null,
+          '1m': null
+        }
+        
+        results.forEach(({ timeframe, data }) => {
+          newAllData[timeframe as Timeframe] = data
+        })
+        
+        setAllTimeframeData(newAllData)
+        
+        // Set the selected timeframe data
+        const selectedData = newAllData[selectedTimeframe]
+        if (selectedData) {
+          setChartData(selectedData)
         } else {
           setError('Failed to fetch chart data')
         }
@@ -43,11 +77,17 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
       }
     }
 
-    loadChartData()
-  }, [symbol, selectedTimeframe])
+    loadAllTimeframeData()
+  }, [symbol])
 
   const handleTimeframeChange = (timeframe: Timeframe) => {
     setSelectedTimeframe(timeframe)
+    
+    // Switch to preloaded data instantly
+    const preloadedData = allTimeframeData[timeframe]
+    if (preloadedData) {
+      setChartData(preloadedData)
+    }
   }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -69,10 +109,10 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
 
   if (isLoading) {
     return (
-      <div className={`card p-6 ${className}`}>
+      <div className={`card p-4 ${className}`}>
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-          <div className="text-sm text-neutral-400">Loading {tokenName} chart...</div>
+          <div className="text-sm text-neutral-400">Loading {tokenName} data for all timeframes...</div>
         </div>
       </div>
     )
@@ -80,22 +120,22 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
 
   if (error || !chartData) {
     return (
-      <div className={`card p-6 ${className}`}>
-        <div className="flex items-center justify-between mb-4">
+      <div className={`card p-4 ${className}`}>
+        <div className="flex items-center justify-between mb-3">
           <div>
-            <div className="text-sm text-neutral-400">{symbol} PRICE</div>
-            <div className="text-2xl font-bold text-white">--</div>
+            <div className="text-xs text-neutral-400">{symbol} PRICE</div>
+            <div className="text-xl font-bold text-white">--</div>
           </div>
           <div className="text-sm font-semibold text-neutral-500">
             --%
           </div>
         </div>
         
-        <div className="flex gap-1 mb-6">
+        <div className="flex gap-1 mb-4">
           {timeframes.map(({ key, label }) => (
             <button
               key={key}
-              className={`px-4 py-2 text-xs font-medium rounded-md transition-all duration-200 ${
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
                 selectedTimeframe === key
                   ? 'bg-primary text-white border border-primary shadow-lg'
                   : 'bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700 hover:border-neutral-600'
@@ -106,7 +146,7 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
           ))}
         </div>
         
-        <div className="h-48 w-full flex items-center justify-center">
+        <div className="h-40 w-full flex items-center justify-center">
           <div className="text-center">
             <div className="text-sm text-neutral-400 mb-2">Chart temporarily unavailable</div>
             <div className="text-xs text-neutral-500">Retrying...</div>
@@ -119,12 +159,12 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
   const isPositive = chartData.priceChange >= 0
 
   return (
-    <div className={`card p-6 ${className}`}>
+    <div className={`card p-4 ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-3">
         <div>
-          <div className="text-sm text-neutral-400">{symbol} PRICE</div>
-          <div className="text-2xl font-bold text-white">{formatPrice(chartData.currentPrice)}</div>
+          <div className="text-xs text-neutral-400">{symbol} PRICE</div>
+          <div className="text-xl font-bold text-white">{formatPrice(chartData.currentPrice)}</div>
         </div>
         <div className={`text-sm font-semibold ${isPositive ? 'text-success' : 'text-danger'}`}>
           {formatPercentage(chartData.priceChangePercent)}
@@ -132,12 +172,12 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
       </div>
 
       {/* Timeframe Selector */}
-      <div className="flex gap-1 mb-6">
+      <div className="flex gap-1 mb-4">
         {timeframes.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => handleTimeframeChange(key)}
-            className={`px-4 py-2 text-xs font-medium rounded-md transition-all duration-200 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
               selectedTimeframe === key
                 ? 'bg-primary text-white border border-primary shadow-lg'
                 : 'bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700 hover:border-neutral-600'
@@ -149,7 +189,7 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
       </div>
 
       {/* Chart */}
-      <div className="h-48 w-full">
+      <div className="h-40 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData.data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -195,7 +235,7 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
       </div>
 
       {/* Price trend indicator */}
-      <div className="mt-4 flex items-center gap-2">
+      <div className="mt-3 flex items-center gap-2">
         <div className={`w-2 h-2 rounded-full ${isPositive ? 'bg-success' : 'bg-danger'}`}></div>
         <span className="text-xs text-neutral-400">
           {isPositive ? 'Price up' : 'Price down'} in {selectedTimeframe}
