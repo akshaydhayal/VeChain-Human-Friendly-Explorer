@@ -1,5 +1,7 @@
 import { StatCard } from '@/components/StatCard'
 import RecentBlocksWebSocket from '@/components/RecentBlocksWebSocket'
+import PriceSection from '@/components/PriceSection'
+import PriceChartsSection from '@/components/PriceChartsSection'
 import { fetchLatestBlock } from '@/lib/blockService'
 import dynamic from 'next/dynamic'
 
@@ -20,6 +22,8 @@ export default async function Page() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         <RecentBlocksWebSocket />
+        <PriceSection />
+        <PriceChartsSection />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard title="Latest Block" value={`#${latest.number.toLocaleString()}`} />
           <StatCard title="Block Size" value={`${latest.size.toLocaleString()} bytes`} />
