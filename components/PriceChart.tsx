@@ -81,9 +81,36 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
   if (error || !chartData) {
     return (
       <div className={`card p-6 ${className}`}>
-        <div className="text-center">
-          <div className="text-sm text-neutral-400 mb-2">{tokenName} Chart Unavailable</div>
-          <div className="text-xs text-neutral-500">{error || 'Unable to load chart data'}</div>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <div className="text-sm text-neutral-400">{symbol} PRICE</div>
+            <div className="text-2xl font-bold text-white">--</div>
+          </div>
+          <div className="text-sm font-semibold text-neutral-500">
+            --%
+          </div>
+        </div>
+        
+        <div className="flex gap-1 mb-6">
+          {timeframes.map(({ key, label }) => (
+            <button
+              key={key}
+              className={`px-4 py-2 text-xs font-medium rounded-md transition-all duration-200 ${
+                selectedTimeframe === key
+                  ? 'bg-primary text-white border border-primary shadow-lg'
+                  : 'bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700 hover:border-neutral-600'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        
+        <div className="h-48 w-full flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-sm text-neutral-400 mb-2">Chart temporarily unavailable</div>
+            <div className="text-xs text-neutral-500">Retrying...</div>
+          </div>
         </div>
       </div>
     )

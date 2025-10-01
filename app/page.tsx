@@ -1,6 +1,5 @@
 import { StatCard } from '@/components/StatCard'
 import RecentBlocksWebSocket from '@/components/RecentBlocksWebSocket'
-import PriceSection from '@/components/PriceSection'
 import PriceChartsSection from '@/components/PriceChartsSection'
 import { fetchLatestBlock } from '@/lib/blockService'
 import dynamic from 'next/dynamic'
@@ -19,42 +18,28 @@ export default async function Page() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="lg:col-span-2 space-y-6">
-        <RecentBlocksWebSocket />
-        <PriceSection />
-        <PriceChartsSection />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <StatCard title="Latest Block" value={`#${latest.number.toLocaleString()}`} />
-          <StatCard title="Block Size" value={`${latest.size.toLocaleString()} bytes`} />
-          <StatCard title="Gas Used" value={latest.gasUsed.toLocaleString()} />
-        </div>
-        <div className="card p-4">
-          <div className="flex items-center justify-between">
-            <div className="font-medium">Network TPS (mock last 2h)</div>
-            <span className="chip">Include vote txs</span>
-          </div>
-          <div className="h-40 mt-4">
-            <TinyChart />
-          </div>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 space-y-8">
+      {/* Recent Blocks Section */}
+      <RecentBlocksWebSocket />
+      
+      {/* Price Charts Section */}
+      <PriceChartsSection />
+      
+      {/* Network Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <StatCard title="Latest Block" value={`#${latest.number.toLocaleString()}`} />
+        <StatCard title="Block Size" value={`${latest.size.toLocaleString()} bytes`} />
+        <StatCard title="Gas Used" value={latest.gasUsed.toLocaleString()} />
       </div>
-      <div className="space-y-6">
-        <div className="card p-4">
-          <div className="font-medium">Client Distribution</div>
-          <div className="text-sm text-neutral-400 mt-2">Jito 75% · Firedancer 21% · Agave 4%</div>
-          <div className="h-48 mt-3 flex items-center justify-center text-neutral-500">Pie Chart Placeholder</div>
+      
+      {/* Network TPS Chart */}
+      <div className="card p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="text-lg font-semibold">Network TPS</div>
+          <span className="chip">Include vote txs</span>
         </div>
-        <div className="card p-4">
-          <div className="font-medium">Node Versions</div>
-          <div className="space-y-2 mt-3">
-            <div className="h-2 bg-black/40 rounded">
-              <div className="h-2 bg-primary rounded" style={{ width: '19%' }} />
-            </div>
-            <div className="h-2 bg-black/40 rounded">
-              <div className="h-2 bg-neutral-400 rounded" style={{ width: '11%' }} />
-            </div>
-          </div>
+        <div className="h-48">
+          <TinyChart />
         </div>
       </div>
     </div>

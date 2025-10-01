@@ -51,28 +51,50 @@ export default function PriceSection() {
   if (error || !priceData) {
     return (
       <div className="card p-6">
-        <div className="text-center">
-          <div className="text-sm text-neutral-400 mb-2">Price Data Unavailable</div>
-          <div className="text-xs text-neutral-500">{error || 'Unable to load token prices'}</div>
+        <div className="flex items-center justify-between mb-4">
+          <div className="text-lg font-semibold">Token Prices</div>
+          <div className="text-xs text-neutral-400">Loading...</div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="card p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="text-sm text-neutral-400">VET PRICE</div>
+                <div className="text-2xl font-bold text-white">--</div>
+              </div>
+              <div className="text-sm font-semibold text-neutral-500">--%</div>
+            </div>
+            <div className="text-xs text-neutral-500">Price data loading...</div>
+          </div>
+          
+          <div className="card p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="text-sm text-neutral-400">VTHO PRICE</div>
+                <div className="text-2xl font-bold text-white">--</div>
+              </div>
+              <div className="text-sm font-semibold text-neutral-500">--%</div>
+            </div>
+            <div className="text-xs text-neutral-500">Price data loading...</div>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-4">
-      <div className="card p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="text-lg font-semibold">Token Prices</div>
-          <div className="text-xs text-neutral-400">
-            Updated {new Date(priceData.vet.last_updated).toLocaleTimeString()}
-          </div>
+    <div className="card p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div className="text-lg font-semibold">Token Prices</div>
+        <div className="text-xs text-neutral-400">
+          Updated {new Date(priceData.vet.last_updated).toLocaleTimeString()}
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <TokenPriceCard token={priceData.vet} />
-          <TokenPriceCard token={priceData.vtho} />
-        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TokenPriceCard token={priceData.vet} />
+        <TokenPriceCard token={priceData.vtho} />
       </div>
     </div>
   )
