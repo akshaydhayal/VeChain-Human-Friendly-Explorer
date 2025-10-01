@@ -211,12 +211,22 @@ export default function TxTabs({ tx }: TxTabsProps) {
             gasUsed: tx.gas,
             gasPayer: tx.origin, // Assuming gas payer is the origin for now
             origin: tx.origin,
-            clauses: tx.clauses.map(clause => ({
-              to: clause.to || '',
-              value: clause.value,
-              data: clause.data || '',
-              decoded: clause.data ? decodeClauseHuman(clause.data) : undefined
-            })),
+            clauses: tx.clauses.map(clause => {
+              const decoded = clause.data ? decodeClauseHuman(clause.data) : null
+              return {
+                to: clause.to || '',
+                value: clause.value,
+                data: clause.data || '',
+                decoded: decoded ? {
+                  functionName: decoded.method || 'Unknown',
+                  parameters: decoded.decoded ? decoded.decoded.map((param: any, index: number) => ({
+                    name: param.name || `param${index}`,
+                    type: param.type || 'unknown',
+                    value: param.value
+                  })) : []
+                } : undefined
+              }
+            }),
             meta: {
               blockNumber: tx.meta?.blockNumber || 0,
               blockTimestamp: tx.meta?.blockTimestamp || 0

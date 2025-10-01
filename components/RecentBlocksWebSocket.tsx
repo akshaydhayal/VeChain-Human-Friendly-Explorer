@@ -74,13 +74,13 @@ export default function RecentBlocksWebSocket() {
                 baseFeePerGas: block.baseFeePerGas || '0x0',
                 totalScore: block.totalScore,
                 txsRoot: block.txsRoot,
-                txsFeatures: block.txsFeatures,
+                txsFeatures: block.txsFeatures || 0,
                 stateRoot: block.stateRoot,
                 receiptsRoot: block.receiptsRoot,
-                com: block.com,
+                com: block.com || false,
                 signer: block.signer,
-                transactions: block.transactions || [],
-                obsolete: block.obsolete || false
+                transactions: block.transactions ? block.transactions.map(tx => tx.id) : [],
+                obsolete: false
               }
               handleBlockUpdate(blockUpdate)
             }

@@ -152,7 +152,8 @@ export function generateNodeAvatar(address: string): {
     textColor: selectedColor.text,
     pattern: selectedPattern,
     initial: selectedFace,
-    shape: selectedShape
+    shape: selectedShape,
+    face: selectedFace
   }
 }
 

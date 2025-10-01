@@ -2,7 +2,7 @@ import { LRUCache } from 'lru-cache'
 
 const ttlMs = 1000 * 60 * 5
 
-export const cache = new LRUCache<string, unknown>({
+export const cache = new LRUCache<string, any>({
   max: 500,
   ttl: ttlMs,
 })

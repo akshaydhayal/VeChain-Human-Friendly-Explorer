@@ -146,7 +146,7 @@ function extractKeyPoints(txData: TransactionData, clauses: any[]): string[] {
       // Add key parameters if available
       if (clause.decoded?.parameters && clause.decoded.parameters.length > 0) {
         const keyParams = clause.decoded.parameters.slice(0, 3) // Show first 3 parameters
-        const paramDetails = keyParams.map(p => `${p.name}: ${formatParameterValue(p.value, p.type)}`).join(', ')
+        const paramDetails = keyParams.map((p: { name: string; type: string; value: any }) => `${p.name}: ${formatParameterValue(p.value, p.type)}`).join(', ')
         if (paramDetails) {
           points.push(`Key parameters: ${paramDetails}`)
         }

@@ -84,13 +84,13 @@ export class RealBlockService {
             baseFeePerGas: latestBlock.baseFeePerGas || '0x0',
             totalScore: latestBlock.totalScore,
             txsRoot: latestBlock.txsRoot,
-            txsFeatures: latestBlock.txsFeatures,
+            txsFeatures: latestBlock.txsFeatures || 0,
             stateRoot: latestBlock.stateRoot,
             receiptsRoot: latestBlock.receiptsRoot,
-            com: latestBlock.com,
+            com: latestBlock.com || false,
             signer: latestBlock.signer,
-            transactions: latestBlock.transactions || [],
-            obsolete: latestBlock.obsolete || false
+            transactions: latestBlock.transactions ? latestBlock.transactions.map(tx => tx.id) : [],
+            obsolete: false
           }
           
           this.onBlockUpdate(blockUpdate)

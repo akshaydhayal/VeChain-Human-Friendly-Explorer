@@ -66,36 +66,38 @@ export class VeChainWebSocket {
       console.log('Connecting to WebSocket:', wsUrl)
       this.ws = new WebSocket(wsUrl)
 
-      this.ws.on('open', () => {
-        console.log('WebSocket connected to VeChain')
-        this.isConnected = true
-        this.reconnectAttempts = 0
-        this.onConnectionChange(true)
-      })
+      if (this.ws) {
+        this.ws.addEventListener('open', () => {
+          console.log('WebSocket connected to VeChain')
+          this.isConnected = true
+          this.reconnectAttempts = 0
+          this.onConnectionChange(true)
+        })
 
-      this.ws.on('message', (data: any) => {
-        try {
-          const parsedData = JSON.parse(data.toString())
-          if (parsedData && parsedData.number) {
-            this.onBlockUpdate(parsedData as BlockUpdate)
+        this.ws.addEventListener('message', (event: MessageEvent) => {
+          try {
+            const parsedData = JSON.parse(event.data.toString())
+            if (parsedData && parsedData.number) {
+              this.onBlockUpdate(parsedData as BlockUpdate)
+            }
+          } catch (error) {
+            console.error('Error parsing WebSocket message:', error)
           }
-        } catch (error) {
-          console.error('Error parsing WebSocket message:', error)
-        }
-      })
+        })
 
-      this.ws.on('close', () => {
-        console.log('WebSocket disconnected')
-        this.isConnected = false
-        this.onConnectionChange(false)
-        this.attemptReconnect()
-      })
+        this.ws.addEventListener('close', () => {
+          console.log('WebSocket disconnected')
+          this.isConnected = false
+          this.onConnectionChange(false)
+          this.attemptReconnect()
+        })
 
-      this.ws.on('error', (error) => {
-        console.error('WebSocket error:', error)
-        this.isConnected = false
-        this.onConnectionChange(false)
-      })
+        this.ws.addEventListener('error', (error: Event) => {
+          console.error('WebSocket error:', error)
+          this.isConnected = false
+          this.onConnectionChange(false)
+        })
+      }
 
     } catch (error) {
       console.error('Failed to create WebSocket connection:', error)
