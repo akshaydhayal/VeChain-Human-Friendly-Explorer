@@ -50,4 +50,12 @@ body {
 }
 .section-tab { @apply bg-primary text-black font-semibold uppercase tracking-widest text-sm px-4 py-2; }
 
+/* Line clamp utility for text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 

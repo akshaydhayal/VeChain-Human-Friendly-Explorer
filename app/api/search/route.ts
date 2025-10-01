@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchBlockByIdOrNumber } from '@/lib/blockService'
 import { fetchTransaction } from '@/lib/txService'
+import { isValidAddress } from '@/lib/accountService'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -20,6 +21,11 @@ export async function GET(req: NextRequest) {
   if (q.startsWith('0x')) {
     const tx = await fetchTransaction(q)
     if (tx) return NextResponse.json({ type: 'tx', href: `/tx/${tx.id}` })
+    
+    // Try account address
+    if (isValidAddress(q)) {
+      return NextResponse.json({ type: 'account', href: `/account/${q}` })
+    }
   }
 
   return NextResponse.json({ type: 'none' })
