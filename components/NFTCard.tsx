@@ -30,7 +30,7 @@ export default function NFTCard({ nft, onImageStatusChange }: NFTCardProps) {
           setImageUrl(imageUrl)
           
           // Check if we have a real image (not a data URL fallback)
-          const hasRealImage = meta?.image && !imageUrl.startsWith('data:image/svg+xml')
+          const hasRealImage = Boolean(meta?.image && !imageUrl.startsWith('data:image/svg+xml'))
           setHasRealImage(hasRealImage)
           console.log('Has real image:', hasRealImage)
           onImageStatusChange?.(nft.tokenId, hasRealImage)

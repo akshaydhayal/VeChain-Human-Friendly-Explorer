@@ -6,6 +6,7 @@ export default function NetworkSelector() {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedNetwork, setSelectedNetwork] = useState('mainnet')
   const [mounted, setMounted] = useState(false)
+  const [isChanging, setIsChanging] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -21,21 +22,33 @@ export default function NetworkSelector() {
   ]
 
   const handleNetworkChange = async (network: typeof networks[0]) => {
+    if (network.id === selectedNetwork) return // Don't change if same network
+    
+    setIsChanging(true)
     setSelectedNetwork(network.id)
     setIsOpen(false)
+    
     // Store in localStorage for persistence
     localStorage.setItem('vechain-network', network.id)
     
-    // Update environment variable for server-side rendering
-    const response = await fetch('/api/network', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ network: network.id })
-    })
-    
-    if (response.ok) {
-      // Reload page to apply new endpoint
-      window.location.reload()
+    try {
+      // Update environment variable for server-side rendering
+      const response = await fetch('/api/network', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ network: network.id })
+      })
+      
+      if (response.ok) {
+        // Redirect to home page and reload to apply new endpoint
+        window.location.href = '/'
+      } else {
+        setIsChanging(false)
+        console.error('Failed to update network')
+      }
+    } catch (error) {
+      setIsChanging(false)
+      console.error('Error changing network:', error)
     }
   }
 
@@ -53,14 +66,19 @@ export default function NetworkSelector() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-surface border border-border rounded text-sm hover:bg-black/40 transition-colors"
+        disabled={isChanging}
+        className="flex items-center gap-2 px-3 py-2 bg-surface border border-border rounded text-sm hover:bg-black/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span className="text-xs">🌙</span>
+        {isChanging ? (
+          <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+        ) : (
+          <span className="text-xs">🌙</span>
+        )}
         <span className="capitalize">{selectedNetwork}</span>
-        <span className="text-xs">▼</span>
+        {!isChanging && <span className="text-xs">▼</span>}
       </button>
       
-      {isOpen && (
+      {isOpen && !isChanging && (
         <div className="absolute top-full right-0 mt-1 bg-surface border border-border rounded shadow-lg z-50 min-w-[120px]">
           {networks.map((network) => (
             <button

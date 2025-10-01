@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <nav className="flex items-center gap-5 text-base text-slate-300">
                 <a className="hover:text-white" href="/">VeStats</a>
                 <a className="hover:text-white" href="/authority-nodes">Authority Nodes</a>
-                <a className="hover:text-white" href="#">Stake</a>
+                {/* <a className="hover:text-white" href="#">Stake</a> */}
                 <NetworkSelector />
               </nav>
             </div>
