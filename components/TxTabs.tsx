@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { formatTimestamp } from '@/lib/blockService'
 import { decodeClauseHuman, decodeFunctionParams } from '@/lib/txService'
 import CopyButton from '@/components/CopyButton'
+import AIExplanation from '@/components/AIExplanation'
 
 type TxTabsProps = {
   tx: {
@@ -25,7 +26,7 @@ type TxTabsProps = {
 }
 
 export default function TxTabs({ tx }: TxTabsProps) {
-  const [activeTab, setActiveTab] = useState<'details' | 'clauses'>('details')
+  const [activeTab, setActiveTab] = useState<'details' | 'clauses' | 'ai'>('details')
 
   return (
     <div className="space-y-6">
@@ -52,6 +53,17 @@ export default function TxTabs({ tx }: TxTabsProps) {
         >
           <span>{}</span>
           Clauses
+        </button>
+        <button
+          onClick={() => setActiveTab('ai')}
+          className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold uppercase tracking-wider border-b-2 transition-colors ${
+            activeTab === 'ai'
+              ? 'text-white border-primary bg-primary/10'
+              : 'text-neutral-400 border-transparent hover:text-white'
+          }`}
+        >
+          <span>🤖</span>
+          AI Analysis
         </button>
       </div>
 
@@ -189,6 +201,28 @@ export default function TxTabs({ tx }: TxTabsProps) {
             })}
           </div>
         </div>
+      )}
+
+      {activeTab === 'ai' && (
+        <AIExplanation 
+          transactionData={{
+            id: tx.id,
+            type: tx.type,
+            gasUsed: tx.gas,
+            gasPayer: tx.origin, // Assuming gas payer is the origin for now
+            origin: tx.origin,
+            clauses: tx.clauses.map(clause => ({
+              to: clause.to || '',
+              value: clause.value,
+              data: clause.data || '',
+              decoded: clause.data ? decodeClauseHuman(clause.data) : undefined
+            })),
+            meta: {
+              blockNumber: tx.meta?.blockNumber || 0,
+              blockTimestamp: tx.meta?.blockTimestamp || 0
+            }
+          }}
+        />
       )}
     </div>
   )
