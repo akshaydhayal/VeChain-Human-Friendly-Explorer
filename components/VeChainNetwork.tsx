@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { fetchVeChainNetwork, VeChainNetworkData, formatNetworkCount, formatVTHOBurned, getNetworkTypeColor, getNetworkTypeLabel } from '@/lib/networkService'
+import { clientCache, CACHE_KEYS, CACHE_TTL } from '@/lib/clientCache'
 
 export default function VeChainNetwork() {
   const [networkData, setNetworkData] = useState<VeChainNetworkData | null>(null)
@@ -13,10 +14,22 @@ export default function VeChainNetwork() {
       try {
         setIsLoading(true)
         setError(null)
+        
+        // Check client-side cache first
+        const cachedData = clientCache.get<VeChainNetworkData>(CACHE_KEYS.VECHAIN_NETWORK)
+        if (cachedData) {
+          setNetworkData(cachedData)
+          setIsLoading(false)
+          return
+        }
+        
+        // If no cache, fetch from API
         const data = await fetchVeChainNetwork()
         
         if (data) {
           setNetworkData(data)
+          // Store in client cache
+          clientCache.set(CACHE_KEYS.VECHAIN_NETWORK, data, CACHE_TTL.NETWORK)
         } else {
           setError('Failed to fetch network data')
         }

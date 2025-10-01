@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { fetchAuthorityNodes, AuthorityNode, formatAddress, formatVTHO, formatTimestamp, generateNodeAvatar } from '@/lib/authorityService'
 import CopyButton from '@/components/CopyButton'
+import { clientCache, CACHE_KEYS, CACHE_TTL } from '@/lib/clientCache'
 
 export default function AuthorityNodesTable() {
   const [nodes, setNodes] = useState<AuthorityNode[]>([])
@@ -16,10 +17,21 @@ export default function AuthorityNodesTable() {
       try {
         setIsLoading(true)
         setError(null)
-        const data = await fetchAuthorityNodes()
         
+        // Check client-side cache first
+        const cachedData = clientCache.get<AuthorityNode[]>(CACHE_KEYS.AUTHORITY_NODES)
+        if (cachedData) {
+          setNodes(cachedData)
+          setIsLoading(false)
+          return
+        }
+        
+        // If no cache, fetch from API
+        const data = await fetchAuthorityNodes()
         if (data) {
           setNodes(data)
+          // Store in client cache
+          clientCache.set(CACHE_KEYS.AUTHORITY_NODES, data, CACHE_TTL.AUTHORITY)
         } else {
           setError('Failed to fetch authority nodes')
         }

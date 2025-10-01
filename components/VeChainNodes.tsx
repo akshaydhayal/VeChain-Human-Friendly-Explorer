@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { fetchVeChainNodes, VeChainNodesData, formatNodeCount, getNodeTypeColor, getNodeTypeLabel } from '@/lib/nodesService'
+import { clientCache, CACHE_KEYS, CACHE_TTL } from '@/lib/clientCache'
 
 export default function VeChainNodes() {
   const [nodesData, setNodesData] = useState<VeChainNodesData | null>(null)
@@ -13,10 +14,22 @@ export default function VeChainNodes() {
       try {
         setIsLoading(true)
         setError(null)
+        
+        // Check client-side cache first
+        const cachedData = clientCache.get<VeChainNodesData>(CACHE_KEYS.VECHAIN_NODES)
+        if (cachedData) {
+          setNodesData(cachedData)
+          setIsLoading(false)
+          return
+        }
+        
+        // If no cache, fetch from API
         const data = await fetchVeChainNodes()
         
         if (data) {
           setNodesData(data)
+          // Store in client cache
+          clientCache.set(CACHE_KEYS.VECHAIN_NODES, data, CACHE_TTL.NODES)
         } else {
           setError('Failed to fetch nodes data')
         }

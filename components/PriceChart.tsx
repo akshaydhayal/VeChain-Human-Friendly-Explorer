@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { getTokenChartData, ChartData, Timeframe, formatPrice, formatPercentage } from '@/lib/alchemyService'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts'
+import { clientCache, CACHE_KEYS, CACHE_TTL } from '@/lib/clientCache'
 
 type PriceChartProps = {
   symbol: string
@@ -35,6 +36,17 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
         setIsLoading(true)
         setError(null)
         
+        // Check cache for all timeframes first
+        const cacheKey = `${CACHE_KEYS.PRICE_CHARTS}_${symbol}`
+        const cachedAllData = clientCache.get<Record<Timeframe, ChartData | null>>(cacheKey)
+        
+        if (cachedAllData) {
+          setAllTimeframeData(cachedAllData)
+          setChartData(cachedAllData[selectedTimeframe])
+          setIsLoading(false)
+          return
+        }
+        
         // Load all timeframes in parallel
         const promises = timeframes.map(async ({ key }) => {
           try {
@@ -61,6 +73,9 @@ export default function PriceChart({ symbol, tokenName, className = '' }: PriceC
         })
         
         setAllTimeframeData(newAllData)
+        
+        // Cache the data
+        clientCache.set(cacheKey, newAllData, CACHE_TTL.CHARTS)
         
         // Set the selected timeframe data
         const selectedData = newAllData[selectedTimeframe]
