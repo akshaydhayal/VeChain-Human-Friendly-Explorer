@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <SearchInput />
               <nav className="flex items-center gap-3 text-sm">
                 <a className="hover:text-white" href="/">VeStats</a>
+                <a className="hover:text-white" href="/authority-nodes">Authority Nodes</a>
                 <a className="hover:text-white" href="#">Stake</a>
                 <NetworkSelector />
               </nav>

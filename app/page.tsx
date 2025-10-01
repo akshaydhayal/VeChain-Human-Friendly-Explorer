@@ -1,6 +1,8 @@
 import { StatCard } from '@/components/StatCard'
 import RecentBlocksWebSocket from '@/components/RecentBlocksWebSocket'
 import PriceChartsSection from '@/components/PriceChartsSection'
+import VeChainNodes from '@/components/VeChainNodes'
+import VeChainNetwork from '@/components/VeChainNetwork'
 import { fetchLatestBlock } from '@/lib/blockService'
 import dynamic from 'next/dynamic'
 
@@ -21,6 +23,12 @@ export default async function Page() {
     <div className="max-w-6xl mx-auto px-8 space-y-8">
       {/* Recent Blocks Section */}
       <RecentBlocksWebSocket />
+      
+      {/* VeChain Nodes Section */}
+      <VeChainNodes />
+      
+      {/* VeChain Network Section */}
+      <VeChainNetwork />
       
       {/* Price Charts Section */}
       <PriceChartsSection />
