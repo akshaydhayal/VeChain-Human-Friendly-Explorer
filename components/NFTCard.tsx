@@ -7,12 +7,14 @@ import CopyButton from './CopyButton'
 
 interface NFTCardProps {
   nft: UserNFT
+  onImageStatusChange?: (tokenId: string, hasRealImage: boolean) => void
 }
 
-export default function NFTCard({ nft }: NFTCardProps) {
+export default function NFTCard({ nft, onImageStatusChange }: NFTCardProps) {
   const [metadata, setMetadata] = useState<any>(null)
   const [imageUrl, setImageUrl] = useState<string>('')
   const [loading, setLoading] = useState(true)
+  const [hasRealImage, setHasRealImage] = useState<boolean>(false)
 
   useEffect(() => {
     const loadMetadata = async () => {
@@ -26,16 +28,26 @@ export default function NFTCard({ nft }: NFTCardProps) {
           const imageUrl = getNFTImageUrl(meta, getCollectionIcon(nft.collectionName))
           console.log('Generated image URL:', imageUrl)
           setImageUrl(imageUrl)
+          
+          // Check if we have a real image (not a data URL fallback)
+          const hasRealImage = meta?.image && !imageUrl.startsWith('data:image/svg+xml')
+          setHasRealImage(hasRealImage)
+          console.log('Has real image:', hasRealImage)
+          onImageStatusChange?.(nft.tokenId, hasRealImage)
         } catch (error) {
           console.warn('Failed to load NFT metadata:', error)
           const fallbackUrl = getNFTImageUrl(null, getCollectionIcon(nft.collectionName))
           console.log('Using fallback image URL:', fallbackUrl)
           setImageUrl(fallbackUrl)
+          setHasRealImage(false)
+          onImageStatusChange?.(nft.tokenId, false)
         }
       } else {
         const fallbackUrl = getNFTImageUrl(null, getCollectionIcon(nft.collectionName))
         console.log('No token URI, using fallback:', fallbackUrl)
         setImageUrl(fallbackUrl)
+        setHasRealImage(false)
+        onImageStatusChange?.(nft.tokenId, false)
       }
       setLoading(false)
     }

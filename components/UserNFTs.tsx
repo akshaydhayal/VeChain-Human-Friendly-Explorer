@@ -12,6 +12,7 @@ interface UserNFTsProps {
 
 export default function UserNFTs({ nftData }: UserNFTsProps) {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null)
+  const [imageStatusMap, setImageStatusMap] = useState<Record<string, boolean>>({})
 
   if (nftData.totalNFTs === 0) {
     return (
@@ -24,10 +25,30 @@ export default function UserNFTs({ nftData }: UserNFTsProps) {
     )
   }
 
+  // Handle image status changes
+  const handleImageStatusChange = (tokenId: string, hasRealImage: boolean) => {
+    setImageStatusMap(prev => ({
+      ...prev,
+      [tokenId]: hasRealImage
+    }))
+  }
+
   // Filter NFTs by selected collection
   const filteredNFTs = selectedCollection 
     ? nftData.nfts.filter(nft => nft.collectionId === selectedCollection)
     : nftData.nfts
+
+  // Sort NFTs: those with real images first, then those without
+  const sortedNFTs = [...filteredNFTs].sort((a, b) => {
+    const aHasImage = imageStatusMap[a.tokenId] || false
+    const bHasImage = imageStatusMap[b.tokenId] || false
+    
+    // If both have images or both don't have images, maintain original order
+    if (aHasImage === bHasImage) return 0
+    
+    // NFTs with images come first
+    return bHasImage ? -1 : 1
+  })
 
   return (
     <div className="space-y-6">
@@ -49,14 +70,18 @@ export default function UserNFTs({ nftData }: UserNFTsProps) {
           </div>
         </div>
         
-        {filteredNFTs.length === 0 ? (
+        {sortedNFTs.length === 0 ? (
           <div className="flex items-center justify-center h-32">
             <p className="text-gray-400">No NFTs in this collection</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredNFTs.map((nft, index) => (
-              <NFTCard key={index} nft={nft} />
+            {sortedNFTs.map((nft, index) => (
+              <NFTCard 
+                key={index} 
+                nft={nft} 
+                onImageStatusChange={handleImageStatusChange}
+              />
             ))}
           </div>
         )}
