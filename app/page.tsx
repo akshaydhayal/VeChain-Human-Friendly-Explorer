@@ -34,14 +34,14 @@ export default async function Page() {
       <PriceChartsSection />
       
       {/* Network Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard title="Latest Block" value={`#${latest.number.toLocaleString()}`} />
         <StatCard title="Block Size" value={`${latest.size.toLocaleString()} bytes`} />
         <StatCard title="Gas Used" value={latest.gasUsed.toLocaleString()} />
-      </div>
+      </div> */}
       
       {/* Network TPS Chart */}
-      <div className="card p-6">
+      {/* <div className="card p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="text-lg font-semibold">Network TPS</div>
           <span className="chip">Include vote txs</span>
@@ -49,7 +49,7 @@ export default async function Page() {
         <div className="h-48">
           <TinyChart />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

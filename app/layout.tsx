@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <div className="min-h-screen flex flex-col">
           <header className="sticky top-0 z-50 border-b border-border bg-black/60 backdrop-blur">
-            <div className="mx-auto max-w-7xl px-4 py-3 flex items-center gap-4">
+            <div className="mx-auto max-w-7xl px-4 py-3 flex items-center gap-10">
               <a href="/" className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
                 <div className="w-8 h-8 rounded-full border-2 border-primary border-dashed flex items-center justify-center">
                   <div className="w-3 h-3 rounded-full bg-primary"></div>
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <span className="text-primary font-bold text-xl tracking-wide">VeStats</span>
               </a>
               <SearchInput />
-              <nav className="flex items-center gap-3 text-sm">
+              <nav className="flex items-center gap-5 text-base text-slate-300">
                 <a className="hover:text-white" href="/">VeStats</a>
                 <a className="hover:text-white" href="/authority-nodes">Authority Nodes</a>
                 <a className="hover:text-white" href="#">Stake</a>
@@ -31,9 +31,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </header>
           <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6">{children}</main>
-          <footer className="border-t border-border text-xs text-neutral-500 px-4 py-6">
-            <div className="mx-auto max-w-7xl">Powered by mock services. VeChain SDK integration coming soon.</div>
-          </footer>
+          {/* <footer className="border-t border-border text-xs text-neutral-500 px-4 py-6">
+            <div className="mx-auto max-w-7xl">Powered by Vechain</div>
+          </footer> */}
         </div>
       </body>
     </html>
