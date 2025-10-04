@@ -1,13 +1,6 @@
 # VeStats - The Human-Friendly VeChain Explorer
 
-<div align="center">
-  <img src="https://via.placeholder.com/800x400/1a1a1a/ffffff?text=VeStats+Demo+Screenshot" alt="VeStats Demo" width="800" height="400" />
-  
-  [![VeChain](https://img.shields.io/badge/VeChain-Ecosystem-blue)](https://vechain.org)
-  [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org)
-  [![AI Powered](https://img.shields.io/badge/AI-Powered-purple)](https://openai.com)
-</div>
+Live Project Link: [https://vestats-explorer.vercel.app/](https://vestats-explorer.vercel.app/)
 
 ## 🌟 What is VeStats?
 
@@ -35,27 +28,8 @@ Type anything - an address, transaction ID, or even "my tokens" - and get instan
 ### 📱 **Works Everywhere**
 Desktop, phone, tablet - VeStats looks great and works fast on any device.
 
-## 🛠️ Built With Modern Tech
 
-- **Next.js 14** - Fast, modern web framework
-- **TypeScript** - Code that doesn't break
-- **VeChain SDK** - Direct connection to VeChain network
-- **AI Engine** - Custom smart analysis
-- **Real-time Updates** - Live blockchain data
 
-## 🚀 Try It Now
-
-### Quick Start
-```bash
-# Clone and run
-git clone https://github.com/your-username/vechain-orb-explorer.git
-cd vechain-orb-explorer
-npm install
-npm run dev
-```
-
-### Live Demo
-Visit our live demo at [vestats.com](https://vestats.com) to see it in action!
 
 ## 📱 See It In Action
 
@@ -81,14 +55,31 @@ Visit our live demo at [vestats.com](https://vestats.com) to see it in action!
 
 </div>
 
-## 🎬 Watch the Demo
 
-<div align="center">
-  <a href="https://www.loom.com/share/61c34260e2514d169a018d10bebb956a?sid=5edfe3b8-0ede-4d5e-b804-07b9fc554091">
-    <!-- <img src="https://www.loom.com/share/61c34260e2514d169a018d10bebb956a?sid=5edfe3b8-0ede-4d5e-b804-07b9fc554091" alt="Demo Video" width="800" height="450" /> -->
-  </a>
-  <p><strong>🎥 See VeStats in Action</strong> - 5 minutes of pure blockchain magic</p>
-</div>
+
+## Video Demo:
+
+[https://www.loom.com/share/61c34260e2514d169a018d10bebb956a?sid=5edfe3b8-0ede-4d5e-b804-07b9fc554091](https://www.loom.com/share/61c34260e2514d169a018d10bebb956a?sid=5edfe3b8-0ede-4d5e-b804-07b9fc554091)
+
+## 🛠️ Built With Modern Tech
+
+- **Next.js 14** - Fast, modern web framework
+- **TypeScript** - Code that doesn't break
+- **VeChain SDK** - Direct connection to VeChain network
+- **AI Engine** - Custom smart analysis
+- **Real-time Updates** - Live blockchain data
+
+## 🚀 Try It Now
+
+### Quick Start
+```bash
+# Clone and run
+git clone https://github.com/your-username/vechain-orb-explorer.git
+cd vechain-orb-explorer
+npm install
+npm run dev
+```
+
 
 ## 🔮 What's Coming Next
 
