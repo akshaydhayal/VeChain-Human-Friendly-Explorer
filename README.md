@@ -61,24 +61,31 @@ Visit our live demo at [vestats.com](https://vestats.com) to see it in action!
 
 ### 🏠 Main Dashboard
 <div align="center">
-  <img src="https://via.placeholder.com/1200x600/1a1a1a/ffffff?text=Clean+Dashboard+View" alt="Dashboard" width="1200" height="600" />
+  <img src="https://github.com/akshaydhayal/VeChain-Human-Friendly-Explorer/blob/main/VeChain-Explorer-Human-Friendly-.png" alt="Dashboard" />
 </div>
 
 ### 🤖 AI Explains Transactions
 <div align="center">
-  <img src="https://via.placeholder.com/1200x600/1a1a1a/ffffff?text=AI+Explains+What+Happened" alt="AI Analysis" width="1200" height="600" />
+  <img src="https://github.com/akshaydhayal/VeChain-Human-Friendly-Explorer/blob/main/VeChain-Explorer-Human-Friendly-%20(4).png" alt="AI Analysis" />
 </div>
 
 ### 💰 Your Portfolio Made Simple
 <div align="center">
-  <img src="https://via.placeholder.com/1200x600/1a1a1a/ffffff?text=Your+Tokens+and+NFTs" alt="Portfolio" width="1200" height="600" />
+  <img src="https://github.com/akshaydhayal/VeChain-Human-Friendly-Explorer/blob/main/VeChain-Explorer-Human-Friendly-%20(1).png"  />
+  <img src="https://github.com/akshaydhayal/VeChain-Human-Friendly-Explorer/blob/main/VeChain-Explorer-Human-Friendly-%20(2).png"  />
+</div>
+
+### 💰 Vechain Authority Nodes Details
+<div align="center">
+  <img src="https://github.com/akshaydhayal/VeChain-Human-Friendly-Explorer/blob/main/VeChain-Explorer-Human-Friendly-%20(3).png"  />
+
 </div>
 
 ## 🎬 Watch the Demo
 
 <div align="center">
-  <a href="https://youtube.com/watch?v=your-demo-video">
-    <img src="https://via.placeholder.com/800x450/ff0000/ffffff?text=Watch+5+Minute+Demo" alt="Demo Video" width="800" height="450" />
+  <a href="https://www.loom.com/share/61c34260e2514d169a018d10bebb956a?sid=5edfe3b8-0ede-4d5e-b804-07b9fc554091">
+    <!-- <img src="https://www.loom.com/share/61c34260e2514d169a018d10bebb956a?sid=5edfe3b8-0ede-4d5e-b804-07b9fc554091" alt="Demo Video" width="800" height="450" /> -->
   </a>
   <p><strong>🎥 See VeStats in Action</strong> - 5 minutes of pure blockchain magic</p>
 </div>
